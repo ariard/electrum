@@ -43,6 +43,8 @@ from .bitcoin import is_old_seed, is_new_seed
 from . import version
 from . import i18n
 
+from .ariard_util import my_print
+
 # http://www.asahi-net.or.jp/~ax2s-kmtn/ref/unicode/e_asia.html
 CJK_INTERVALS = [
     (0x4E00, 0x9FFF, 'CJK Unified Ideographs'),
@@ -170,7 +172,9 @@ class Mnemonic(object):
 
     def make_seed(self, seed_type='standard', num_bits=132, custom_entropy=1):
         from . import version
+        my_print("seed prefix is: " + str(seed_type))
         prefix = version.seed_prefix(seed_type)
+        my_print("prefix is: " + str(prefix))
         # increase num_bits in order to obtain a uniform distibution for the last word
         bpw = math.log(len(self.wordlist), 2)
         num_bits = int(math.ceil(num_bits/bpw) * bpw)
@@ -180,10 +184,13 @@ class Mnemonic(object):
         print_error("make_seed", prefix, "adding %d bits"%n)
         my_entropy = ecdsa.util.randrange(pow(2, n))
         nonce = 0
+        my_print("my entropy: " + str(my_entropy))
         while True:
             nonce += 1
             i = custom_entropy * (my_entropy + nonce)
+            my_print("brut seed: " + str(i))
             seed = self.mnemonic_encode(i)
+            my_print("seed : " + seed)
             assert i == self.mnemonic_decode(seed)
             if is_old_seed(seed):
                 continue
