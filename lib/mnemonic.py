@@ -139,6 +139,9 @@ class Mnemonic(object):
         PBKDF2_ROUNDS = 2048
         mnemonic = normalize_text(mnemonic)
         passphrase = normalize_text(passphrase)
+        my_print("mnmemonic: " + mnemonic)
+        my_print("passphrase: " + passphrase)
+        my_print("iter: " + str(PBKDF2_ROUNDS))
         return pbkdf2.PBKDF2(mnemonic, 'electrum' + passphrase, iterations = PBKDF2_ROUNDS, macmodule = hmac, digestmodule = hashlib.sha512).read(64)
 
     def mnemonic_encode(self, i):

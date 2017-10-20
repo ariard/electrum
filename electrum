@@ -105,6 +105,8 @@ from electrum import keystore
 from electrum.mnemonic import Mnemonic
 import electrum_plugins
 
+from electrum.ariard_util import *
+
 # get password routine
 def prompt_password(prompt, confirm=True):
     import getpass
@@ -176,6 +178,7 @@ def run_non_RPC(config):
         passphrase = config.get('passphrase', '')
         seed_type = 'segwit' if config.get('segwit') else 'standard'
         seed = Mnemonic('en').make_seed(seed_type)
+        my_print("final seed: " + seed)
         k = keystore.from_seed(seed, passphrase)
         storage.put('keystore', k.dump())
         storage.put('wallet_type', 'standard')

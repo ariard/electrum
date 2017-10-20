@@ -39,6 +39,8 @@ from .util import PrintError, InvalidPassword, hfu
 from .mnemonic import Mnemonic, load_wordlist
 from .plugins import run_hook
 
+from .ariard_util import *
+
 class KeyStore(PrintError):
 
     def has_seed(self):
@@ -319,6 +321,7 @@ class BIP32_KeyStore(Deterministic_KeyStore, Xpub):
         self.xpub = bitcoin.xpub_from_xprv(xprv)
 
     def add_xprv_from_seed(self, bip32_seed, xtype, derivation):
+        #HERE
         xprv, xpub = bip32_root(bip32_seed, xtype)
         xprv, xpub = bip32_private_derivation(xprv, "m/", derivation)
         self.add_xprv(xprv)
@@ -691,6 +694,7 @@ def from_seed(seed, passphrase):
         keystore.add_seed(seed)
         keystore.passphrase = passphrase
         bip32_seed = Mnemonic.mnemonic_to_seed(seed, passphrase)
+        my_print("bip32_seed: " + str(bip32_seed))
         keystore.add_xprv_from_seed(bip32_seed, t, "m/")
     else:
         raise BaseException(t)
