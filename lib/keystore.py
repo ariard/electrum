@@ -236,6 +236,7 @@ class Xpub:
                 self.xpub_change = xpub
             else:
                 self.xpub_receive = xpub
+        my_print("pub key: " + str(xpub))
         return self.get_pubkey_from_xpub(xpub, (n,))
 
     @classmethod

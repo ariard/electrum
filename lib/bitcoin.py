@@ -38,6 +38,8 @@ from . import version
 from .util import print_error, InvalidPassword, assert_bytes, to_bytes, inv_dict
 from . import segwit_addr
 
+from .ariard_util import *
+
 def read_json_dict(filename):
     path = os.path.join(os.path.dirname(__file__), filename)
     try:
@@ -929,11 +931,17 @@ def xpub_from_xprv(xprv):
 
 def bip32_root(seed, xtype):
     I = hmac.new(b"Bitcoin seed", seed, hashlib.sha512).digest()
+    my_print("raw seed: " + str(I))
     master_k = I[0:32]
     master_c = I[32:]
+    my_print("master private key: " + str(master_k))
+    my_print("chain code: " + str(master_c))
     K, cK = get_pubkeys_from_secret(master_k)
+    my_print("public key: " + str(K))
     xprv = serialize_xprv(xtype, master_c, master_k)
     xpub = serialize_xpub(xtype, master_c, cK)
+    my_print("xprv: " + str(xprv))
+    my_print("xpub: " + str(xpub))
     return xprv, xpub
 
 
@@ -979,7 +987,14 @@ def bip32_private_derivation(xprv, branch, sequence):
 
 
 def bip32_public_derivation(xpub, branch, sequence):
+    my_print("xpub: " + str(xpub))
+    my_print("branch: " + str(branch))
+    my_print("sequence: " + str(sequence))
     xtype, depth, fingerprint, child_number, c, cK = deserialize_xpub(xpub)
+    my_print("xtype: " + str(xtype))
+    my_print("depth: " + str(depth))
+    my_print("fingerprint: " + str(fingerprint))
+    my_print("child_number: " + str(child_number))
     assert sequence.startswith(branch)
     sequence = sequence[len(branch):]
     for n in sequence.split('/'):

@@ -84,6 +84,7 @@ class Abstract_Wallet(PrintError):
 
     def __init__(self, storage):
         self.electrum_version = ELECTRUM_VERSION
+        my_print("wallet version: " + str(self.electrum_version))
         self.storage = storage
         self.network = None
         # verifier (SPV) and synchronizer are started in start_threads
@@ -1657,7 +1658,9 @@ class Deterministic_Wallet(Abstract_Wallet):
         addr_list = self.change_addresses if for_change else self.receiving_addresses
         n = len(addr_list)
         x = self.derive_pubkeys(for_change, n)
+        my_print("father pub key: " + str(x))
         address = self.pubkeys_to_address(x)
+        my_print("address: " + str(address))
         addr_list.append(address)
         self.save_addresses()
         self.add_address(address)
@@ -1883,6 +1886,7 @@ class Wallet(object):
 
     def __new__(self, storage):
         wallet_type = storage.get('wallet_type')
+        my_print("wallet type: " + str(wallet_type))
         WalletClass = Wallet.wallet_class(wallet_type)
         wallet = WalletClass(storage)
         # Convert hardware wallets restored with older versions of

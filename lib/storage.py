@@ -41,6 +41,7 @@ from .plugins import run_hook, plugin_loaders
 from .keystore import bip44_derivation
 from . import bitcoin
 
+from .ariard_util import *
 
 # seed_version is now used for the version of the wallet file
 

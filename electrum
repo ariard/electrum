@@ -364,6 +364,7 @@ if __name__ == '__main__':
     # todo: defer this to gui
     config = SimpleConfig(config_options)
     cmdname = config.get('cmd')
+    my_print("cmdname: " + cmdname)
 
     if config.get('testnet'):
         bitcoin.set_testnet()
