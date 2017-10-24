@@ -1,0 +1,1 @@
+python3 electrum -P --testnet encrypt 0250d13320675fa826e599ab0a0c8721a55736f071c9ecefd6a580fb25f9f039e0  hello world
