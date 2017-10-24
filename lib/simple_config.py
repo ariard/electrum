@@ -95,7 +95,13 @@ class SimpleConfig(PrintError):
         if not os.path.exists(path):
             if os.path.islink(path):
                 raise BaseException('Dangling link: ' + path)
-            os.mkdir(path)
+            try:
+                os.mkdir(path)
+            except FileNotFoundError:
+                short = path.rsplit('/', 1)[0]
+                os.mkdir(short)
+                os.chmod(short, stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
+                os.mkdir(path)
             os.chmod(path, stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
 
         self.print_error("electrum directory", path)
